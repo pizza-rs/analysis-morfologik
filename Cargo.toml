@@ -4,7 +4,7 @@ version = "0.1.0"
 authors = ["INFINI Labs <hello@infini.ltd>"]
 edition = "2021"
 license = "MIT"
-description = "Morfologik-based Polish and Ukrainian lemmatizer for INFINI Pizza"
+description = "Polish and Ukrainian dictionary-based lemmatization plugin for INFINI Pizza"
 repository = "https://pizza.rs"
 keywords = ["pizza", "polish", "ukrainian", "lemmatizer", "morfologik"]
 
