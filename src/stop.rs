@@ -3,20 +3,23 @@
 //! Stop words list sourced from Apache Lucene's Ukrainian analyzer
 //! (licensed under Apache 2.0).
 
-use alloc::borrow::Cow;
+use alloc::string::String;
+use alloc::vec::Vec;
 
+use hashbrown::HashSet;
 use pizza_engine::analysis::{Token, TokenFilter};
 
-/// Ukrainian stop words (1269 entries from Lucene).
-pub static UKRAINIAN_STOP_WORDS: &str = include_str!("../data/stopwords_uk.txt");
+use crate::data::ukrainian_stopwords;
 
 /// Ukrainian stop words filter.
 ///
 /// Removes common Ukrainian function words that carry little semantic value.
-/// The stop word list is sourced from Apache Lucene's `UkrainianMorfologikAnalyzer`.
+/// The list is loaded once from `config/analysis/morfologik/stopwords_uk.txt`
+/// (or the embedded Apache Lucene copy) into a shared `&'static` hash set, so
+/// membership is O(1) and the hot path allocates only the lowercased term.
 #[derive(Clone, Debug)]
 pub struct UkrainianStopFilter {
-    _priv: (),
+    stop: &'static HashSet<String>,
 }
 
 impl Default for UkrainianStopFilter {
@@ -27,12 +30,13 @@ impl Default for UkrainianStopFilter {
 
 impl UkrainianStopFilter {
     pub fn new() -> Self {
-        Self { _priv: () }
+        Self {
+            stop: ukrainian_stopwords(),
+        }
     }
 
     fn is_stop_word(&self, word: &str) -> bool {
-        let lower = word.to_lowercase();
-        UKRAINIAN_STOP_WORDS.lines().any(|w| w == lower)
+        self.stop.contains(&word.to_lowercase())
     }
 }
 

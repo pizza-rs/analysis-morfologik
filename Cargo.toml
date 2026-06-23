@@ -10,7 +10,10 @@ keywords = ["pizza", "polish", "ukrainian", "lemmatizer", "morfologik"]
 
 
 [features]
-default = ["polish"]
+default = ["polish", "embed-fallback"]
+# Embed the stopword/lemma-rule text as a fallback. Disable for a smaller binary
+# that loads only from config/analysis/morfologik/.
+embed-fallback = []
 polish = []
 ukrainian = []
 std = ["pizza-engine/std"]

@@ -16,6 +16,7 @@
 //! - [`UkrainianStemFilter`] — Ukrainian stemming token filter
 //! - [`UkrainianStopFilter`] — Ukrainian stop words filter
 extern crate alloc;
+mod data;
 mod polish;
 mod stop;
 mod ukrainian;
