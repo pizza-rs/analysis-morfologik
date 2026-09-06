@@ -11,7 +11,8 @@ use alloc::borrow::Cow;
 use alloc::string::String;
 use alloc::vec::Vec;
 
-use pizza_engine::analysis::{Token, TokenFilter};
+use pizza_engine::analysis::Token;
+use pizza_engine::analysis::TokenFilter;
 
 use crate::data::ukrainian_lemma_rules;
 
@@ -74,7 +75,6 @@ impl TokenFilter for UkrainianStemFilter {
         (true, None)
     }
 }
-
 
 #[cfg(test)]
 mod tests {

@@ -7,7 +7,8 @@ use alloc::string::String;
 use alloc::vec::Vec;
 
 use hashbrown::HashSet;
-use pizza_engine::analysis::{Token, TokenFilter};
+use pizza_engine::analysis::Token;
+use pizza_engine::analysis::TokenFilter;
 
 use crate::data::ukrainian_stopwords;
 

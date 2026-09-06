@@ -4,7 +4,9 @@ use alloc::boxed::Box;
 
 use pizza_engine::analysis::AnalysisFactory;
 
-use crate::{MorfologikFilter, UkrainianStemFilter, UkrainianStopFilter};
+use crate::MorfologikFilter;
+use crate::UkrainianStemFilter;
+use crate::UkrainianStopFilter;
 
 /// Register Morfologik token filters. Construction is lazy: each filter (and the
 /// dictionary it loads) is built only on first use of that named filter.

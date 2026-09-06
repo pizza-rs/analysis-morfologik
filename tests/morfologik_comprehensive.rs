@@ -1,7 +1,11 @@
 //! Comprehensive tests for pizza-analysis-morfologik (Polish + Ukrainian morphological analysis).
 
-use pizza_analysis_morfologik::{MorfologikFilter, UkrainianStemFilter, UkrainianStopFilter};
-use pizza_engine::analysis::{AnalysisFactory, Token, TokenFilter};
+use pizza_analysis_morfologik::MorfologikFilter;
+use pizza_analysis_morfologik::UkrainianStemFilter;
+use pizza_analysis_morfologik::UkrainianStopFilter;
+use pizza_engine::analysis::AnalysisFactory;
+use pizza_engine::analysis::Token;
+use pizza_engine::analysis::TokenFilter;
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // Helpers
