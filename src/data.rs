@@ -17,32 +17,37 @@ use pizza_engine::analysis::OnceCellSync;
 const NAMESPACE: &str = "morfologik";
 
 #[cfg(feature = "embed-fallback")]
-const EMBEDDED_STOPWORDS_UK: &str = include_str!("../data/stopwords_uk.txt");
+const EMBEDDED_STOPWORDS_UK: Option<&str> = Some(include_str!("../data/stopwords_uk.txt"));
 #[cfg(not(feature = "embed-fallback"))]
-const EMBEDDED_STOPWORDS_UK: &str = "";
+const EMBEDDED_STOPWORDS_UK: Option<&str> = None;
 #[cfg(feature = "embed-fallback")]
-const EMBEDDED_POLISH_RULES: &str = include_str!("../data/polish_lemma_rules.txt");
+const EMBEDDED_POLISH_RULES: Option<&str> = Some(include_str!("../data/polish_lemma_rules.txt"));
 #[cfg(not(feature = "embed-fallback"))]
-const EMBEDDED_POLISH_RULES: &str = "";
+const EMBEDDED_POLISH_RULES: Option<&str> = None;
 #[cfg(feature = "embed-fallback")]
-const EMBEDDED_UKRAINIAN_RULES: &str = include_str!("../data/ukrainian_lemma_rules.txt");
+const EMBEDDED_UKRAINIAN_RULES: Option<&str> = Some(include_str!("../data/ukrainian_lemma_rules.txt"));
 #[cfg(not(feature = "embed-fallback"))]
-const EMBEDDED_UKRAINIAN_RULES: &str = "";
+const EMBEDDED_UKRAINIAN_RULES: Option<&str> = None;
 
 /// Read a dictionary file, preferring the external config copy (std only) and
-/// falling back to the embedded text. Never fails: the embedded copy is always
-/// present, so a missing or unreadable external file transparently degrades to
-/// the bundled default.
-fn load_text(file: &str, embedded: &'static str) -> Cow<'static, str> {
+/// falling back to the embedded text when one is compiled in. The shipped
+/// pizza build embeds nothing, so a missing external file fails loudly
+/// instead of quietly producing empty tables.
+fn load_text(file: &str, embedded: Option<&'static str>) -> Cow<'static, str> {
     #[cfg(feature = "std")]
     {
-        pizza_engine::analysis::dict::load_str(NAMESPACE, file, Some(embedded))
-            .unwrap_or(Cow::Borrowed(embedded))
+        pizza_engine::analysis::dict::load_str(NAMESPACE, file, embedded).unwrap_or_else(|e| {
+            panic!(
+                "morfologik dictionary '{file}' is not available: {e}; stage it under \
+                 config/analysis/morfologik/ ('make copy-analysis-dicts') or build \
+                 pizza-analysis-morfologik with the 'embed-fallback' feature"
+            )
+        })
     }
     #[cfg(not(feature = "std"))]
     {
         let _ = file;
-        Cow::Borrowed(embedded)
+        Cow::Borrowed(embedded.unwrap_or(""))
     }
 }
 
