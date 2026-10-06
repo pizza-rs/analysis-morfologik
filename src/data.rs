@@ -25,7 +25,8 @@ const EMBEDDED_POLISH_RULES: Option<&str> = Some(include_str!("../data/polish_le
 #[cfg(not(feature = "embed-fallback"))]
 const EMBEDDED_POLISH_RULES: Option<&str> = None;
 #[cfg(feature = "embed-fallback")]
-const EMBEDDED_UKRAINIAN_RULES: Option<&str> = Some(include_str!("../data/ukrainian_lemma_rules.txt"));
+const EMBEDDED_UKRAINIAN_RULES: Option<&str> =
+    Some(include_str!("../data/ukrainian_lemma_rules.txt"));
 #[cfg(not(feature = "embed-fallback"))]
 const EMBEDDED_UKRAINIAN_RULES: Option<&str> = None;
 
